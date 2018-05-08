@@ -100,7 +100,6 @@ public class RepairLaborDAO extends BaseDAO {
             //session.flush();
 //            getTransaction().commit();
             session.getTransaction().commit();
-            session.close();
             res.setId(String.valueOf(id));
             res.setKey(Constants.SUCCESS);
         } catch (Exception ex) {
@@ -173,7 +172,7 @@ public class RepairLaborDAO extends BaseDAO {
         Session session = null;
         try {
             session = getSession();
-            String sql = "DELETE FROM RepairLabor et where PARENT_ID is not null ";
+            String sql = "DELETE FROM RepairLabor et where PARENT_ID is not null";
             if (!DataUtil.isNullOrEmpty(maintainType)) {
                 sql += " and et.maintainType = ? ";
                 params.add(Integer.parseInt(maintainType));

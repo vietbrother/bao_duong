@@ -270,9 +270,6 @@ public class RepairLaborMngtController {
                 if (DataUtil.isListNullOrEmpty(lst)) {
                     validate = false;
                     ComponentUtils.showNotification("File is empty");
-                } else {
-                    String pathFileImport = ui.getUploadImport().getPath() + lst.get(lst.size() - 1);
-                    ComponentUtils.showNotification(pathFileImport);
                 }
                 if (validate) {
                     ConfirmDialog d = ConfirmDialog.show(

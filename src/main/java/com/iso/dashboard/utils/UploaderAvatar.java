@@ -11,6 +11,7 @@ import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.Button;
@@ -132,8 +133,13 @@ public class UploaderAvatar extends CustomComponent {
         avatar.setVisible(true);
 //                new ThemeResource("img/profile-pic-300px.jpg"));
         avatar.setWidth(200.0f, Unit.PIXELS);
-        avatar.setSource(new FileResource(new File(avatarPath == null || avatarPath.isEmpty()
-                ? "img/profile-pic-300px.jpg" : avatarPath)));
+        String defaultPath = VaadinService.getCurrent()
+                  .getBaseDirectory().getAbsolutePath() + "/WEB-INF/image/profile-pic-300px_.jpg";
+        File f = new File(avatarPath == null || avatarPath.isEmpty() ? defaultPath : avatarPath);
+        if(!f.exists()){
+            f = new File(defaultPath);
+        }
+        avatar.setSource(new FileResource(f));
         layout.addComponent(avatar);
 //
         UploadStateWindow window = new UploadStateWindow();
@@ -168,7 +174,6 @@ public class UploaderAvatar extends CustomComponent {
                         if (!dir.exists()) {
                             dir.mkdirs();
                         }
-
                         File file = new File(path + prefixName + fileName);
                         try (FileOutputStream fos = new FileOutputStream(file)) {
                             fos.write(IOUtils.toByteArray(inputStream));

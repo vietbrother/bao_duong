@@ -293,10 +293,10 @@ public class OrganizationMngtController {
             Notification.show(BundleUtils.getString("orgMngt.list.name") + Constants.SPACE_CHARACTER + BundleUtils.getString("common.notnull"));
             return false;
         }
-        if (ui.getTxtName().getValue().length() > 20) {
-            Notification.show(BundleUtils.getString("orgMngt.list.name") + Constants.SPACE_CHARACTER + BundleUtils.getString("common.maxlength.20"));
-            return false;
-        }
+//        if (ui.getTxtName().getValue().length() > 20) {
+//            Notification.show(BundleUtils.getString("orgMngt.list.name") + Constants.SPACE_CHARACTER + BundleUtils.getString("common.maxlength.20"));
+//            return false;
+//        }
 
         if (DataUtil.isNullOrEmpty(ui.getTxtCode().getValue())) {
             Notification.show(BundleUtils.getString("orgMngt.list.code") + Constants.SPACE_CHARACTER + BundleUtils.getString("common.notnull"));

@@ -14,9 +14,8 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+public class ProfileMachineDAO extends BaseDAO {
 
-public class ProfileMachineDAO extends BaseDAO{
-    
     private static ProfileMachineDAO dao;
 
     public static ProfileMachineDAO getInstance() {
@@ -72,10 +71,26 @@ public class ProfileMachineDAO extends BaseDAO{
         try {
             session = getSession();
             CProfileMachine et = (CProfileMachine) session.get(CProfileMachine.class, newData.getId());
+            et.setCode(newData.getCode());
             et.setName(newData.getName());
+            et.setManufactureCountry(newData.getManufactureCountry());
+            et.setWheelFormula(newData.getWheelFormula());
+            et.setRepairType(newData.getRepairType());
+            et.setSizeTotal(newData.getSizeTotal());
+            et.setNumberSeating(newData.getNumberSeating());
+            et.setWidth(newData.getWidth());
+            et.setWeight(newData.getWeight());
+            et.setVolume(newData.getVolume());
+            et.setMaxPower(newData.getMaxPower());
+            et.setDriveSystem(newData.getDriveSystem());
+            et.setBattery(newData.getBattery());
+            et.setWheelUse(newData.getWheelUse());
+            et.setDetail(newData.getDetail());
+            et.setAvatar(newData.getAvatar());
+            et.setManufactureYear(newData.getManufactureYear());
+            et.setWeightCurrent(newData.getWeightCurrent());
+            et.setEmployee(newData.getEmployee());
             session.update(et);
-            //session.flush();
-//            getTransaction().commit();
             session.getTransaction().commit();
             res.setKey(Constants.SUCCESS);
         } catch (Exception e) {

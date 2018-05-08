@@ -30,14 +30,17 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FileResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Responsive;
+import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
@@ -49,6 +52,7 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.dussan.vaadin.dcharts.ChartImageFormat;
@@ -106,22 +110,42 @@ public final class DashboardView extends Panel implements View,
         setContent(root);
         Responsive.makeResponsive(root);
 
-        root.addComponent(buildHeader());
-
-        root.addComponent(buildChart());
-
-        Component content = buildContent();
-        root.addComponent(content);
-        root.setExpandRatio(content, 1);
+        CssLayout clMainView = new CssLayout();
+        clMainView.addStyleName("sparks");
+        clMainView.setWidth("100%");
+        Responsive.makeResponsive(clMainView);
+        VerticalLayout vertical = new VerticalLayout();
+        vertical.setMargin(true);
+        vertical.setWidth("100%");
+        Embedded backgroundImg = new Embedded();
+        backgroundImg.setImmediate(true);
+        backgroundImg.setVisible(true);
+//                new ThemeResource("img/profile-pic-300px.jpg"));
+        backgroundImg.setWidth(900.0f, Unit.PIXELS);
+        String path = VaadinService.getCurrent()
+                .getBaseDirectory().getAbsolutePath() + "/WEB-INF/image/dashboard.jpg";
+        File f = new File(path);
+        backgroundImg.setSource(new FileResource(f));
+        vertical.addComponent(backgroundImg);
+        clMainView.addComponent(vertical);
+        root.addComponent(clMainView);
+        
+//        root.addComponent(buildHeader());
+//
+//        root.addComponent(buildChart());
+//
+//        Component content = buildContent();
+//        root.addComponent(content);
+//        root.setExpandRatio(content, 1);
 
         // All the open sub-windows should be closed whenever the root layout
         // gets clicked.
-        root.addLayoutClickListener(new LayoutClickListener() {
-            @Override
-            public void layoutClick(final LayoutClickEvent event) {
-                DashboardEventBus.post(new CloseOpenWindowsEvent());
-            }
-        });
+//        root.addLayoutClickListener(new LayoutClickListener() {
+//            @Override
+//            public void layoutClick(final LayoutClickEvent event) {
+//                DashboardEventBus.post(new CloseOpenWindowsEvent());
+//            }
+//        });
     }
 
     private Component buildChart() {
@@ -142,7 +166,7 @@ public final class DashboardView extends Panel implements View,
         return clMostUsedFunc;
     }
 
-    private JFreeChartWrapper chartDemo(){
+    private JFreeChartWrapper chartDemo() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         dataset.addValue(10.0, "Series 1", "Category 1");
         dataset.addValue(4.0, "Series 1", "Category 2");
@@ -180,16 +204,16 @@ public final class DashboardView extends Panel implements View,
         dataset.addValue(7.0, "Series 9", "Category 2");
         dataset.addValue(11.0, "Series 9", "Category 3");
         dataset.addValue(-10.0, "Series 9", "Category 4");
-        
+
         JFreeChart chart = ChartFactory.createBarChart3D(
-            "3D Bar Chart Demo",      // chart title
-            "Category",               // domain axis label
-            "Value",                  // range axis label
-            dataset,                  // data
-            PlotOrientation.VERTICAL, // orientation
-            true,                     // include legend
-            true,                     // tooltips
-            false);                   // urls
+                "3D Bar Chart Demo", // chart title
+                "Category", // domain axis label
+                "Value", // range axis label
+                dataset, // data
+                PlotOrientation.VERTICAL, // orientation
+                true, // include legend
+                true, // tooltips
+                false);                   // urls
 
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
         plot.setOutlineVisible(false);
@@ -201,13 +225,13 @@ public final class DashboardView extends Panel implements View,
         axis.setCategoryMargin(0.0);
         BarRenderer3D renderer = (BarRenderer3D) plot.getRenderer();
         renderer.setDrawBarOutline(false);
-        
+
 //        chart.getPlot().setBackgroundPaint(Color.WHITE);
 //        chart.setBackgroundPaint(Color.WHITE);
-        
 //        JPanel panel = new ChartPanel(chart);
         return new JFreeChartWrapper(chart);
     }
+
     private ChartJs buildChartDemo() {
         BarChartConfig barConfig = new BarChartConfig();
         barConfig.

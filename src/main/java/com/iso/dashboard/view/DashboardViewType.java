@@ -37,8 +37,7 @@ public enum DashboardViewType {
 //    PROCESS_MNGT("processMngt", DashboardView.class, VaadinIcons.FILE_TREE, true, true, true),
 //    GUIDE_MNGT("guideMngt", CataGuideMngtView.class, VaadinIcons.BOOKMARK, true, false, false),
     //
-    ASSET_MNGT("assetMngt", DashboardView.class, FontAwesome.ARCHIVE, true, true, true),
-    REPAIR_TYPE_MNGT("repairTypeMngt", RepairTypeMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
+    //ASSET_MNGT("assetMngt", StockSupplyMngtView.class, FontAwesome.ARCHIVE, true, true, false),
 
 	//ASSET_LIST_MNGT("assetListMngt", AssetMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
     //C_UNIT_MNGT("unitMngt", UnitMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
@@ -47,8 +46,7 @@ public enum DashboardViewType {
     //ASSET_GROUP_MNGT("assetGroupMngt", AssetGroupMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
     //ASSET_CLASS_MNGT("assetClassMngt", AssetClassMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
     //
-    MATERIAL_MNGT("materialMngt", DashboardView.class, FontAwesome.MAGNET, true, true, true),
-    MATERIAL_LIST_MNGT("materialListMngt", MaterialMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
+    MATERIAL_MNGT("materialMngt", StockSupplyMngtView.class, FontAwesome.MAGNET, true, true, false),
     //
     //MAINTENANCE_MNGT("maintenanceMngt", DashboardView.class, FontAwesome.CAR, true, true, true),
     //MAINTENANCE_0_MNGT("maintenance0Mngt", Maintenance1MngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
@@ -60,7 +58,12 @@ public enum DashboardViewType {
     REPAIR_LABOR_MNGT("repairLaborMngt", RepairLaborMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
     
     MAINTEN1_LABOR_MNGT("mainten1LaborMngt", Mainten1LaborMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
-    MAINTEN2_LABOR_MNGT("mainten2LaborMngt", Mainten2LaborMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false);
+    MAINTEN2_LABOR_MNGT("mainten2LaborMngt", Mainten2LaborMngtView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
+    
+    MAINTAIN_SUPPLY_MNGT("maintainSupplyMngt", DashboardView.class, FontAwesome.ARCHIVE, true, true, true),
+    
+    MAINTAIN1_SUPPLY_MNGT("maintainSupply1", Maintain1SupplyView.class, FontAwesome.ANGLE_RIGHT, true, false, false),
+    MAINTAIN2_SUPPLY_MNGT("maintainSupply2", Maintain2SupplyView.class, FontAwesome.ANGLE_RIGHT, true, false, false);
 
     public static Map<String, List<DashboardViewType>> mapSubMenu = new HashMap<>();
 
@@ -87,20 +90,17 @@ public enum DashboardViewType {
 //        List<DashboardViewType> lstProcessMngtSubMenu = new ArrayList<>();
 //        lstProcessMngtSubMenu.add(GUIDE_MNGT);
 //        mapSubMenu.put(PROCESS_MNGT.getViewName(), lstProcessMngtSubMenu);
-
-        List<DashboardViewType> lstAssetMngtSubMenu = new ArrayList<>();
-        lstAssetMngtSubMenu.add(REPAIR_TYPE_MNGT);
-        mapSubMenu.put(ASSET_MNGT.getViewName(), lstAssetMngtSubMenu);
-        
-        List<DashboardViewType> lstMaterialMngtSubMenu = new ArrayList<>();
-        lstMaterialMngtSubMenu.add(MATERIAL_LIST_MNGT);
-        mapSubMenu.put(MATERIAL_MNGT.getViewName(), lstMaterialMngtSubMenu);
         
         List<DashboardViewType> lstRepairMngtSubMenu = new ArrayList<>();
         lstRepairMngtSubMenu.add(REPAIR_LABOR_MNGT);
         lstRepairMngtSubMenu.add(MAINTEN1_LABOR_MNGT);
         lstRepairMngtSubMenu.add(MAINTEN2_LABOR_MNGT);
         mapSubMenu.put(REPAIR_MNGT.getViewName(), lstRepairMngtSubMenu);
+        
+        List<DashboardViewType> lstMaintainSupMngtSubMenu = new ArrayList<>();
+        lstMaintainSupMngtSubMenu.add(MAINTAIN1_SUPPLY_MNGT);
+        lstMaintainSupMngtSubMenu.add(MAINTAIN2_SUPPLY_MNGT);
+        mapSubMenu.put(MAINTAIN_SUPPLY_MNGT.getViewName(), lstMaintainSupMngtSubMenu);
 
     }
 

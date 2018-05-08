@@ -78,18 +78,18 @@ public class ProfileMachineMngtController {
                         BundleUtils.getString("common.confirmDelete.no"),
                         new ConfirmDialog.Listener() {
 
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    // Confirmed to continue
-                                    CProfileMachine item = (CProfileMachine) obj;
-                                    String delId = String.valueOf(item.getId());
-                                    ResultDTO res = ProfileMachineMngtService.getInstance().removeCProfileMachine(delId);
-                                    ProfileMachineEmployeeService.getInstance().removeMProfileEmployeeByProfileId(delId, null);
-                                    ComponentUtils.showNotification(BundleUtils.getString("common.button.delete") + " " + res.getMessage());
-                                    view.getBtnSearch().click();
-                                }
-                            }
-                        });
+                    public void onClose(ConfirmDialog dialog) {
+                        if (dialog.isConfirmed()) {
+                            // Confirmed to continue
+                            CProfileMachine item = (CProfileMachine) obj;
+                            String delId = String.valueOf(item.getId());
+                            ResultDTO res = ProfileMachineMngtService.getInstance().removeCProfileMachine(delId);
+                            ProfileMachineEmployeeService.getInstance().removeMProfileEmployeeByProfileId(delId, null);
+                            ComponentUtils.showNotification(BundleUtils.getString("common.button.delete") + " " + res.getMessage());
+                            view.getBtnSearch().click();
+                        }
+                    }
+                });
                 d.setStyleName(Reindeer.WINDOW_LIGHT);
                 d.setContentMode(ConfirmDialog.ContentMode.HTML);
                 d.getOkButton().setIcon(ISOIcons.SAVE);
@@ -115,15 +115,17 @@ public class ProfileMachineMngtController {
         container.addContainerProperty("id", String.class, null);
         container.addContainerProperty("code", String.class, null);
         container.addContainerProperty("name", String.class, null);
+        container.addContainerProperty("manufactoryName", String.class, null);
         container.addContainerProperty("type", String.class, null);
-        container.addContainerProperty("country", String.class, null);
+        container.addContainerProperty("employee", String.class, null);
         for (CProfileMachine j : lstUnits) {
             Item item = container.addItem(j);
             item.getItemProperty("id").setValue(String.valueOf(j.getId()));
             item.getItemProperty("code").setValue(j.getCode());
             item.getItemProperty("name").setValue(j.getName());
+            item.getItemProperty("manufactoryName").setValue(j.getManufactoryName());
             item.getItemProperty("type").setValue(j.getRepairType() == null ? "" : j.getRepairType().getName());
-            item.getItemProperty("country").setValue(j.getManufactureCountry());
+            item.getItemProperty("employee").setValue(j.getEmployee() == null ? "" : (j.getEmployee().getFirstName() + " " + j.getEmployee().getLastName()));
         }
         container.sort(new Object[]{"id"}, new boolean[]{true});
         return container;
@@ -192,23 +194,21 @@ public class ProfileMachineMngtController {
             ui.getTxtSize().setValue(dto.getSizeTotal() == null ? "" : dto.getSizeTotal());
             ui.getTxtVolume().setValue(dto.getVolume() == null ? "" : dto.getVolume());
             ui.getTxtWeight().setValue(dto.getWeight() == null ? "" : dto.getWeight());
-            ui.getTxtWeightCurrent().setValue(dto.getWeightCurrent()== null ? "" : dto.getWeightCurrent());
+            ui.getTxtWeightCurrent().setValue(dto.getWeightCurrent() == null ? "" : dto.getWeightCurrent());
             ui.getTxtWheelFormula().setValue(dto.getWheelFormula() == null ? "" : dto.getWheelFormula());
             ui.getTxtWheelUse().setValue(dto.getWheelUse() == null ? "" : dto.getWheelUse());
             ui.getTxtWidth().setValue(dto.getWidth() == null ? "" : dto.getWidth());
             ui.getTxaDetail().setValue(dto.getDetail() == null ? "" : dto.getDetail());
+            ui.getTxtManufactoryName().setValue(dto.getManufactoryName()== null ? "" : dto.getManufactoryName());
 
             ComponentUtils.fillDataObjectCombo(ui.getCmbType(), "",
                     dto.getRepairType() == null ? "" : String.valueOf(dto.getRepairType().getId()),
                     lstType,
                     RepairType.class, "id", "name");
-
-            List<MProfileEmployee> lstMapEmployees = ProfileMachineEmployeeService.getInstance().getMProfileEmployeeByProfileId(dto.getId());
-            List<Employee> employees = new ArrayList<>();
-            for (MProfileEmployee temp : lstMapEmployees) {
-                employees.add(temp.getEmployee());
+            if (dto.getEmployee()!= null) {
+                ui.getEmpSearchUI().getTxtTaskName().setValue(dto.getEmployee().getFirstName() + " " + dto.getEmployee().getLastName());
+                ui.getEmpSearchUI().setTreeTaskSelected(dto.getEmployee());
             }
-            ui.getReferenceUi().getController().reloadData(employees);
         }
     }
 
@@ -228,65 +228,31 @@ public class ProfileMachineMngtController {
             public void buttonClick(Button.ClickEvent event) {
                 boolean validate = validateData(ui);
                 if (validate) {
-                    ConfirmDialog d = ConfirmDialog.show(
-                            UI.getCurrent(),
+                    ConfirmDialog d = ConfirmDialog.show(UI.getCurrent(),
                             BundleUtils.getString("message.warning.title"),
                             BundleUtils.getString("message.warning.content"),
                             BundleUtils.getString("common.confirmDelete.yes"),
-                            BundleUtils.getString("common.confirmDelete.no"),
-                            new ConfirmDialog.Listener() {
-
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        // Confirmed to continue
-                                        ResultDTO res = null;
-                                        getDataFromUI(ui, dto);
-                                        List<Employee> lstEmp = ui.getReferenceUi().getController().getEmployees();
-                                        if (isInsert) {
-                                            res = ProfileMachineMngtService.getInstance().addCProfileMachine(dto);
-                                            if (res.getId() != null) {
-                                                dto.setId(Integer.valueOf(res.getId()));
-                                                if (lstEmp != null) {
-                                                    List<MProfileEmployee> lstMap = new ArrayList<>();
-                                                    for (Employee emp : lstEmp) {
-                                                        MProfileEmployee mapping = new MProfileEmployee();
-                                                        mapping.setEmployee(emp);
-                                                        mapping.setProfile(dto);
-                                                        lstMap.add(mapping);
-                                                    }
-                                                    for (MProfileEmployee mapPE : lstMap) {
-                                                        ProfileMachineEmployeeService.getInstance().addMProfileEmployee(mapPE);
-                                                    }
-                                                }
-                                            }
-                                            ComponentUtils.showNotification(BundleUtils.getString("common.button.add") + " " + res.getKey() + " " + res.getMessage());
-                                        } else {
-                                            res = ProfileMachineMngtService.getInstance().updateCProfileMachine(dto);
-                                            ProfileMachineEmployeeService.getInstance().removeMProfileEmployeeByProfileId(String.valueOf(dto.getId()), null);
-                                            if (lstEmp != null) {
-                                                List<MProfileEmployee> lstMap = new ArrayList<>();
-                                                for (Employee emp : lstEmp) {
-                                                    MProfileEmployee mapping = new MProfileEmployee();
-                                                    mapping.setEmployee(emp);
-                                                    mapping.setProfile(dto);
-                                                    lstMap.add(mapping);
-                                                }
-                                                for (MProfileEmployee mapPE : lstMap) {
-                                                    ProfileMachineEmployeeService.getInstance().addMProfileEmployee(mapPE);
-                                                }
-                                            }
-                                            ComponentUtils.showNotification(BundleUtils.getString("common.button.update") + " "
-                                                    + res.getKey() + " " + res.getMessage());
-                                        }
-                                        window.close();
-                                        view.getBtnSearch().click();
+                            BundleUtils.getString("common.confirmDelete.no"), (ConfirmDialog dialog) -> {
+                                if (dialog.isConfirmed()) {
+                                    // Confirmed to continue
+                                    ResultDTO res = null;
+                                    getDataFromUI(ui, dto);
+                                    if (isInsert) {
+                                        res = ProfileMachineMngtService.getInstance().addCProfileMachine(dto);
+                                        ComponentUtils.showNotification(BundleUtils.getString("common.button.add") + " " + res.getKey() + " " + res.getMessage());
                                     } else {
-                                        // User did not confirm
-                                        Notification.show("nok");
-                                        window.close();
+                                        res = ProfileMachineMngtService.getInstance().updateCProfileMachine(dto);
+                                        ComponentUtils.showNotification(BundleUtils.getString("common.button.update") + " "
+                                                + res.getKey() + " " + res.getMessage());
                                     }
+                                    window.close();
+                                    view.getBtnSearch().click();
+                                } else {
+                                    // User did not confirm
+                                    Notification.show("nok");
+                                    window.close();
                                 }
-                            });
+                    });
                     d.setStyleName(Reindeer.LAYOUT_BLUE);
                     d.setContentMode(ConfirmDialog.ContentMode.HTML);
                     d.getOkButton().setIcon(ISOIcons.SAVE);
@@ -316,7 +282,7 @@ public class ProfileMachineMngtController {
         dto.setName(ui.getTxtName().getValue().trim());
         dto.setCode(ui.getTxtCode().getValue().trim());
         dto.setBattery(ui.getTxtBattery().getValue());
-        dto.setAvatar(ui.getUploadAvatar().getUrl() == null ? "" 
+        dto.setAvatar(ui.getUploadAvatar().getUrl() == null || ui.getUploadAvatar().getUrl().size() == 0 ? ""
                 : (ui.getUploadAvatar().getPath() + ui.getUploadAvatar().getUrl().get(0)));
         dto.setDetail(ui.getTxaDetail().getValue());
         dto.setDriveSystem(ui.getTxtDriveSystem().getValue());
@@ -331,7 +297,9 @@ public class ProfileMachineMngtController {
         dto.setWheelFormula(ui.getTxtWheelFormula().getValue());
         dto.setWheelUse(ui.getTxtWheelUse().getValue());
         dto.setWidth(ui.getTxtWidth().getValue());
-        
+        dto.setEmployee(ui.getEmpSearchUI().getTreeTaskSelected());
+        dto.setManufactoryName(ui.getTxtManufactoryName().getValue());
+
         RepairType type = (RepairType) ui.getCmbType().getValue();
         if (type != null && !DataUtil.isStringNullOrEmpty(type.getId()) && !Constants.DEFAULT_VALUE.equals(type.getId())) {
             dto.setRepairType(type);

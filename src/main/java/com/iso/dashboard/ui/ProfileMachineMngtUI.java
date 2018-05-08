@@ -40,6 +40,8 @@ public class ProfileMachineMngtUI extends CustomComponent {
 
     private TextField txtCode;
     private TextField txtName;
+    private TreeEmpSearchUI empSearchUI;
+    private TextField txtManufactoryName;
     private TextField txtManufactoryCountry;
     private TextField txtManufactoryYear;
     private ComboBox cmbType;
@@ -92,7 +94,6 @@ public class ProfileMachineMngtUI extends CustomComponent {
         content.setExpandRatio(detailsWrapper, 1f);
 
         detailsWrapper.addComponent(buildProfileTab());
-        detailsWrapper.addComponent(buildPreferencesTab());
 
         detailsWrapper.setSelectedTab(0);
 
@@ -130,15 +131,7 @@ public class ProfileMachineMngtUI extends CustomComponent {
         pic.setSizeUndefined();
         pic.setMargin(true);
         pic.setSpacing(true);
-//        avatar = new Image(null,
-//                new ThemeResource(pathAvatar));
-////                new ThemeResource("img/profile-pic-300px.jpg"));
-//        avatar.setWidth(100.0f, Unit.PIXELS);
-//        pic.addComponent(avatar);
-//
-//        btnUpload = new Button(BundleUtils.getString("profileMachine.list.avatarChange"));
-//        btnUpload.addStyleName(ValoTheme.BUTTON_TINY);
-//        pic.addComponent(btnUpload);
+
         uploadAvatar = new UploaderAvatar(UploaderAvatar.TYPE_UPLOAD.AVATAR, pathAvatar);
         pic.addComponent(uploadAvatar);
         root.addComponent(pic);
@@ -168,6 +161,22 @@ public class ProfileMachineMngtUI extends CustomComponent {
         txtName.setDescription(BundleUtils.getString("profileMachine.list.name"));
         txtName.setCaption(BundleUtils.getString("profileMachine.list.name"));
         txtName.setInputPrompt(BundleUtils.getString("profileMachine.list.name"));
+
+        empSearchUI = new TreeEmpSearchUI(BundleUtils.getString("profileMachine.list.employee"));
+        empSearchUI.setImmediate(true);
+        empSearchUI.setWidth("100.0%");
+        empSearchUI.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
+        empSearchUI.setDescription(BundleUtils.getString("profileMachine.list.employee"));
+
+        txtManufactoryName = new TextField();
+        txtManufactoryName.setImmediate(true);
+        txtManufactoryName.setRequired(true);
+        txtManufactoryName.setWidth("100.0%");
+        txtManufactoryName.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
+        txtManufactoryName.setRequired(true);
+        txtManufactoryName.setDescription(BundleUtils.getString("profileMachine.list.manufactoryName"));
+        txtManufactoryName.setCaption(BundleUtils.getString("profileMachine.list.manufactoryName"));
+        txtManufactoryName.setInputPrompt(BundleUtils.getString("profileMachine.list.manufactoryName"));
 
         txtManufactoryCountry = new TextField();
         txtManufactoryCountry.setImmediate(true);
@@ -318,6 +327,8 @@ public class ProfileMachineMngtUI extends CustomComponent {
 
         details.addComponent(txtCode);
         details.addComponent(txtName);
+        details.addComponent(empSearchUI);
+        details.addComponent(txtManufactoryName);
         details.addComponent(txtManufactoryCountry);
         details.addComponent(txtManufactoryYear);
         details.addComponent(cmbType);
@@ -673,5 +684,20 @@ public class ProfileMachineMngtUI extends CustomComponent {
         this.path = path;
     }
 
-    
+    public TreeEmpSearchUI getEmpSearchUI() {
+        return empSearchUI;
+    }
+
+    public void setEmpSearchUI(TreeEmpSearchUI empSearchUI) {
+        this.empSearchUI = empSearchUI;
+    }
+
+    public TextField getTxtManufactoryName() {
+        return txtManufactoryName;
+    }
+
+    public void setTxtManufactoryName(TextField txtManufactoryName) {
+        this.txtManufactoryName = txtManufactoryName;
+    }
+
 }

@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
-
 @Entity
 @Table(name = "c_profile_machine")
 public class CProfileMachine implements Serializable {
@@ -42,7 +41,11 @@ public class CProfileMachine implements Serializable {
     @ManyToOne
     @JoinColumn(name = "C_REPAIR_TYPE_ID", nullable = true)
     private RepairType repairType;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "C_EMPLOYEE_ID", nullable = true)
+    private Employee employee;
+
     @Column(name = "SIZE_TOTAL", nullable = true)
     private String sizeTotal;
     @Column(name = "NUMBER_SEATING", nullable = true)
@@ -67,6 +70,8 @@ public class CProfileMachine implements Serializable {
     private String detail;
     @Column(name = "AVATAR", nullable = true)
     private String avatar;
+    @Column(name = "MANUFACTORY_NAME", nullable = true)
+    private String manufactoryName;
 
     public CProfileMachine() {
     }
@@ -228,6 +233,20 @@ public class CProfileMachine implements Serializable {
         this.weightCurrent = weightCurrent;
     }
 
- 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public String getManufactoryName() {
+        return manufactoryName;
+    }
+
+    public void setManufactoryName(String manufactoryName) {
+        this.manufactoryName = manufactoryName;
+    }
 
 }
