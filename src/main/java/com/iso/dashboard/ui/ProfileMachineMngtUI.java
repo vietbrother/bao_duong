@@ -10,6 +10,7 @@ import com.iso.dashboard.utils.UploaderAvatar;
 import com.iso.dashboard.view.ProfileReferenceView;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -20,6 +21,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.PopupDateField;
 //import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextArea;
@@ -40,11 +42,16 @@ public class ProfileMachineMngtUI extends CustomComponent {
 
     private TextField txtCode;
     private TextField txtName;
+    private OrgTreeSearchUI orgTreeSearchUI;
     private TreeEmpSearchUI empSearchUI;
     private TextField txtManufactoryName;
     private TextField txtManufactoryCountry;
     private TextField txtManufactoryYear;
     private ComboBox cmbType;
+    private PopupDateField insuranceExp;
+    private PopupDateField registryExp;
+    private PopupDateField rubberReplace;
+    private PopupDateField batteryReplace;
     private TextField txtWheelFormula;
     private TextField txtSize;
     private TextField txtNumberSeating;
@@ -162,6 +169,12 @@ public class ProfileMachineMngtUI extends CustomComponent {
         txtName.setCaption(BundleUtils.getString("profileMachine.list.name"));
         txtName.setInputPrompt(BundleUtils.getString("profileMachine.list.name"));
 
+        orgTreeSearchUI = new OrgTreeSearchUI(BundleUtils.getString("profileMachine.list.organization"));
+        orgTreeSearchUI.setImmediate(true);
+        orgTreeSearchUI.setWidth("100.0%");
+        orgTreeSearchUI.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
+        orgTreeSearchUI.setDescription(BundleUtils.getString("profileMachine.list.organization"));
+
         empSearchUI = new TreeEmpSearchUI(BundleUtils.getString("profileMachine.list.employee"));
         empSearchUI.setImmediate(true);
         empSearchUI.setWidth("100.0%");
@@ -204,6 +217,42 @@ public class ProfileMachineMngtUI extends CustomComponent {
         cmbType.setWidth(Constants.STYLE_CONF.AUTO_VALUE);
         cmbType.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
         cmbType.setRequired(true);
+
+        insuranceExp = new PopupDateField();
+        insuranceExp.setImmediate(true);
+        insuranceExp.setWidth("100.0%");
+        insuranceExp.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
+        insuranceExp.setDateFormat(Constants.DATE.ddMMyyy);
+        insuranceExp.setResolution(Resolution.SECOND);
+        insuranceExp.setCaption(BundleUtils.getString("profileMachine.list.insurance"));
+        insuranceExp.setInputPrompt(BundleUtils.getString("profileMachine.list.insurance"));
+
+        registryExp = new PopupDateField();
+        registryExp.setImmediate(true);
+        registryExp.setWidth("100.0%");
+        registryExp.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
+        registryExp.setDateFormat(Constants.DATE.ddMMyyy);
+        registryExp.setResolution(Resolution.SECOND);
+        registryExp.setCaption(BundleUtils.getString("profileMachine.list.registry"));
+        registryExp.setInputPrompt(BundleUtils.getString("profileMachine.list.registry"));
+
+        rubberReplace = new PopupDateField();
+        rubberReplace.setImmediate(true);
+        rubberReplace.setWidth("100.0%");
+        rubberReplace.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
+        rubberReplace.setDateFormat(Constants.DATE.ddMMyyy);
+        rubberReplace.setResolution(Resolution.SECOND);
+        rubberReplace.setCaption(BundleUtils.getString("profileMachine.list.rubber"));
+        rubberReplace.setInputPrompt(BundleUtils.getString("profileMachine.list.rubber"));
+
+        batteryReplace = new PopupDateField();
+        batteryReplace.setImmediate(true);
+        batteryReplace.setWidth("100.0%");
+        batteryReplace.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
+        batteryReplace.setDateFormat(Constants.DATE.ddMMyyy);
+        batteryReplace.setResolution(Resolution.SECOND);
+        batteryReplace.setCaption(BundleUtils.getString("profileMachine.list.batteryReplace"));
+        batteryReplace.setInputPrompt(BundleUtils.getString("profileMachine.list.batteryReplace"));
 
         txtWheelFormula = new TextField();
         txtWheelFormula.setImmediate(true);
@@ -327,11 +376,16 @@ public class ProfileMachineMngtUI extends CustomComponent {
 
         details.addComponent(txtCode);
         details.addComponent(txtName);
+        details.addComponent(orgTreeSearchUI);
         details.addComponent(empSearchUI);
         details.addComponent(txtManufactoryName);
         details.addComponent(txtManufactoryCountry);
         details.addComponent(txtManufactoryYear);
         details.addComponent(cmbType);
+        details.addComponent(insuranceExp);
+        details.addComponent(registryExp);
+        details.addComponent(rubberReplace);
+        details.addComponent(batteryReplace);
         details.addComponent(txtWheelFormula);
         details.addComponent(txtSize);
         details.addComponent(txtNumberSeating);
@@ -698,6 +752,46 @@ public class ProfileMachineMngtUI extends CustomComponent {
 
     public void setTxtManufactoryName(TextField txtManufactoryName) {
         this.txtManufactoryName = txtManufactoryName;
+    }
+
+    public OrgTreeSearchUI getOrgTreeSearchUI() {
+        return orgTreeSearchUI;
+    }
+
+    public void setOrgTreeSearchUI(OrgTreeSearchUI orgTreeSearchUI) {
+        this.orgTreeSearchUI = orgTreeSearchUI;
+    }
+
+    public PopupDateField getInsuranceExp() {
+        return insuranceExp;
+    }
+
+    public void setInsuranceExp(PopupDateField insuranceExp) {
+        this.insuranceExp = insuranceExp;
+    }
+
+    public PopupDateField getRegistryExp() {
+        return registryExp;
+    }
+
+    public void setRegistryExp(PopupDateField registryExp) {
+        this.registryExp = registryExp;
+    }
+
+    public PopupDateField getRubberReplace() {
+        return rubberReplace;
+    }
+
+    public void setRubberReplace(PopupDateField rubberReplace) {
+        this.rubberReplace = rubberReplace;
+    }
+
+    public PopupDateField getBatteryReplace() {
+        return batteryReplace;
+    }
+
+    public void setBatteryReplace(PopupDateField batteryReplace) {
+        this.batteryReplace = batteryReplace;
     }
 
 }

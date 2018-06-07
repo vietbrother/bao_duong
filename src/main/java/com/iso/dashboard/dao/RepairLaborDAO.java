@@ -7,8 +7,13 @@ package com.iso.dashboard.dao;
 
 import com.iso.dashboard.dto.RepairLabor;
 import com.iso.dashboard.dto.ResultDTO;
+import com.iso.dashboard.dto.ResultMaintainDTO;
 import com.iso.dashboard.utils.Constants;
 import com.iso.dashboard.utils.DataUtil;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
@@ -188,5 +193,48 @@ public class RepairLaborDAO extends BaseDAO {
             e.printStackTrace();
         }
 
+    }
+
+    public List<ResultMaintainDTO> getListResultMaintain(int maintainType, String repairName) {
+        Session session = null;
+        List<ResultMaintainDTO> result = new ArrayList<>();
+        try {
+            session = getSession();
+            result = session.doReturningWork((Connection cnctn) -> {
+                List<ResultMaintainDTO> resultMaintainDTOs = new ArrayList<>();
+                CallableStatement cStmt = cnctn.prepareCall("{CALL getRepairLabor(?,?)}");
+                cStmt.setInt(1, maintainType);
+                String rpn = repairName;
+                if(rpn == null){
+                    rpn = "";
+                }
+                cStmt.setString(2, rpn.trim());
+                cStmt.execute();
+                ResultSet rs1 = cStmt.getResultSet();
+                ResultSetMetaData rsmd = rs1.getMetaData();
+                int columnsNumber = rsmd.getColumnCount();
+                while (rs1.next()) {
+                    ResultMaintainDTO maintainDTO = new ResultMaintainDTO();
+                    maintainDTO.setName(rs1.getString(1));
+                    maintainDTO.setSubInfo(rs1.getString(2));
+                    List<String> lstData = new ArrayList<>();
+                    List<String> lstLael = new ArrayList<>();
+                    for (int i = 3; i <= columnsNumber; i++) {
+                        lstData.add(rs1.getString(i));
+                        lstLael.add(rsmd.getColumnLabel(i));
+                    }
+                    maintainDTO.setListHeader(lstData);
+                    maintainDTO.setLstLabel(lstLael);
+                    resultMaintainDTOs.add(maintainDTO);
+                }
+                rs1.close();
+                cStmt.close();
+                return resultMaintainDTOs;
+            });
+            session.getTransaction().commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return result;
     }
 }

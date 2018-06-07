@@ -202,16 +202,16 @@ public class MaintainSupplyView extends Panel implements View {
         btnImport.setImmediate(true);
         btnImport.setWidth(Constants.STYLE_CONF.AUTO_VALUE);
         btnImport.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
-//        buttonForm.addComponent(btnImport);
+        buttonForm.addComponent(btnImport);
 
-        btnAdd = new Button();
-        btnAdd.setCaption(BundleUtils.getString("common.button.add"));
-        btnAdd.setDescription(BundleUtils.getString("common.button.add"));
-        btnAdd.setIcon(ISOIcons.ADD);
-        btnAdd.setImmediate(true);
-        btnAdd.setWidth(Constants.STYLE_CONF.AUTO_VALUE);
-        btnAdd.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
-        buttonForm.addComponent(btnAdd);
+//        btnAdd = new Button();
+//        btnAdd.setCaption(BundleUtils.getString("common.button.add"));
+//        btnAdd.setDescription(BundleUtils.getString("common.button.add"));
+//        btnAdd.setIcon(ISOIcons.ADD);
+//        btnAdd.setImmediate(true);
+//        btnAdd.setWidth(Constants.STYLE_CONF.AUTO_VALUE);
+//        btnAdd.setHeight(Constants.STYLE_CONF.AUTO_VALUE);
+//        buttonForm.addComponent(btnAdd);
 
         return buttonForm;
     }

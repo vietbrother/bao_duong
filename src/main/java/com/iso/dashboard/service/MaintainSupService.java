@@ -8,6 +8,7 @@ package com.iso.dashboard.service;
 import com.iso.dashboard.dao.MaintainSupplyDAO;
 import com.iso.dashboard.dto.MaintainSup;
 import com.iso.dashboard.dto.ResultDTO;
+import com.iso.dashboard.dto.ResultMaintainDTO;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * @author Thuclt-VNPTTech
  */
 public class MaintainSupService {
-    
+
     private static MaintainSupService service;
 
     public static MaintainSupService getInstance() {
@@ -36,6 +37,7 @@ public class MaintainSupService {
     public List<MaintainSup> listRepairLaborsAll(String key, String maintainType) {
         return MaintainSupplyDAO.getInstance().listRepairLaborsAll(key, maintainType);
     }
+
     public List<MaintainSup> listRepairLabors(String parentId, String maintainType) {
         return MaintainSupplyDAO.getInstance().listRepairLabors(maintainType);
     }
@@ -46,5 +48,13 @@ public class MaintainSupService {
 
     public ResultDTO removeRepairLabor(String id) {
         return MaintainSupplyDAO.getInstance().removeRepairLabor(id);
+    }
+
+    public List<ResultMaintainDTO> getListResultSupply(int maintainType, String supName) {
+        return MaintainSupplyDAO.getInstance().getListResultMaintain(maintainType, supName);
+    }
+
+    public void removeRepairLaborByType(String maitainType) {
+        MaintainSupplyDAO.getInstance().deleteRepairLabor(maitainType);
     }
 }

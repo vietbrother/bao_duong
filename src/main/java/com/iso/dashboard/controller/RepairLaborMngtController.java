@@ -9,6 +9,7 @@ import com.iso.dashboard.component.CustomGrid;
 import com.iso.dashboard.dto.RepairLabor;
 import com.iso.dashboard.dto.RepairType;
 import com.iso.dashboard.dto.ResultDTO;
+import com.iso.dashboard.dto.ResultMaintainDTO;
 import com.iso.dashboard.service.RepairLaborMngtService;
 import com.iso.dashboard.service.RepairTypeMngtService;
 import com.iso.dashboard.ui.ImportFileUI;
@@ -37,6 +38,7 @@ import java.io.File;
 import static java.lang.Math.log;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +52,7 @@ public class RepairLaborMngtController {
 
     RepairLaborMngtView view;
     RepairLaborMngtService service;
-    
+
     private int repairType;
 
     CustomGrid pagedTable;
@@ -68,83 +70,53 @@ public class RepairLaborMngtController {
         this.view = view;
         this.pagedTable = view.getPagedTable();
         this.repairType = view.getRepairType();
-        initTable(RepairLaborMngtService.getInstance().listRepairLaborsAll(null, String.valueOf(repairType)));
+        initTable(RepairLaborMngtService.getInstance().getListResultMaintain(repairType, null));
         doAction();
     }
 
-    public void initTable(List<RepairLabor> lst) {
-        IndexedContainer container = createContainer(lst);
-        pagedTable.genGrid(container, prefix, headerColumn, null, new HandlerButtonActionGrid() {
-
-            @Override
-            public void actionEdit(Object obj) {
-                RepairLabor item = (RepairLabor) obj;
-                String uId = String.valueOf(item.getId());
-                Notification.show("Edit " + uId);
-                RepairLabor dto = RepairLaborMngtService.getInstance().getRepairLaborById(uId);
-                onUpdate(dto);
-                view.getBtnSearch().click();
+    public void initTable(List<ResultMaintainDTO> lst) {
+        List<RepairType> repairTypes = RepairTypeMngtService.getInstance().listRepairTypes("");
+        List<String> headerTemp = Arrays.asList(headerColumn);
+        List<String> tempList = new ArrayList<String>(headerTemp);
+        if (lst != null && !lst.isEmpty()) {
+            ResultMaintainDTO dto = lst.get(0);
+            tempList.addAll(dto.getLstLabel());
+        } else if (repairTypes != null) {
+            for (RepairType repairType1 : repairTypes) {
+                tempList.add(repairType1.getName());
             }
-
-            @Override
-            public void actionDelete(Object obj) {
-                ConfirmDialog d = ConfirmDialog.show(UI.getCurrent(),
-                        BundleUtils.getString("message.warning.title"),
-                        BundleUtils.getString("message.warning.content"),
-                        BundleUtils.getString("common.confirmDelete.yes"),
-                        BundleUtils.getString("common.confirmDelete.no"),
-                        new ConfirmDialog.Listener() {
-
-                            public void onClose(ConfirmDialog dialog) {
-                                if (dialog.isConfirmed()) {
-                                    // Confirmed to continue
-                                    RepairLabor item = (RepairLabor) obj;
-                                    String delId = String.valueOf(item.getId());
-                                    ResultDTO res = RepairLaborMngtService.getInstance().removeRepairLabor(delId);
-                                    ComponentUtils.showNotification("Delete id : " + delId + " " + res.getKey() + " " + res.getMessage());
-                                    view.getBtnSearch().click();
-                                }
-                            }
-                        });
-                d.setStyleName(Reindeer.WINDOW_LIGHT);
-                d.setContentMode(ConfirmDialog.ContentMode.HTML);
-                d.getOkButton().setIcon(ISOIcons.SAVE);
-                d.getCancelButton().setIcon(ISOIcons.CANCEL);
-            }
-
-            @Override
-            public void actionSelect(Object obj) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
+        }
+        String[] tempArray = new String[tempList.size()];
+        headerColumn = tempList.toArray(tempArray);
+        IndexedContainer container = createContainer(lst, tempList);
+        pagedTable.setDontCreatActionButton(1);
+        pagedTable.genGrid(container, prefix, headerColumn, null, null);
 
     }
 
-    public void reloadData(List<RepairLabor> lstUnits) {
-        pagedTable.setContainerDataSource(pagedTable.createWrapContainer(createContainer(lstUnits)));
+    public void reloadData(List<ResultMaintainDTO> lstUnits, List<String> lstHeader) {
+        pagedTable.setContainerDataSource(pagedTable.createWrapContainer(createContainer(lstUnits, lstHeader)));
     }
 
-    public IndexedContainer createContainer(List<RepairLabor> lstUnits) {
+    public IndexedContainer createContainer(List<ResultMaintainDTO> lstUnits, List<String> lstHeader) {
         IndexedContainer container = new IndexedContainer();
-//        container.addContainerProperty("stt", String.class, null);
-        container.addContainerProperty("btnAction", String.class, null);
-        container.addContainerProperty("id", String.class, null);
-        //container.addContainerProperty("code", String.class, null);
-        container.addContainerProperty("name", String.class, null);
-        container.addContainerProperty("level", String.class, null);
-        container.addContainerProperty("type", String.class, null);
-        container.addContainerProperty("quota", String.class, null);
-        container.addContainerProperty("decreaseLevel", String.class, null);
-        for (RepairLabor j : lstUnits) {
+        for (String type : lstHeader) {
+            container.addContainerProperty(type, String.class, null);
+        }
+        int i = 1;
+        for (ResultMaintainDTO j : lstUnits) {
             Item item = container.addItem(j);
-            item.getItemProperty("id").setValue(String.valueOf(j.getId()));
-            //item.getItemProperty("code").setValue(j.getCode());
+            item.getItemProperty("stt").setValue(String.valueOf(i));
             item.getItemProperty("name").setValue(j.getName());
-            item.getItemProperty("level").setValue(j.getLevel());
-            item.getItemProperty("type").setValue(j.getRepairType() == null ? "" : j.getRepairType().getName());
-            item.getItemProperty("name").setValue(j.getName());
-            item.getItemProperty("quota").setValue(j.getQuota() == null ? "" : j.getQuota());
-            item.getItemProperty("decreaseLevel").setValue(j.getDecreaseRate() == null ? "" : j.getDecreaseRate());
+            item.getItemProperty("level").setValue(j.getSubInfo());
+            List<String> lstData = j.getListHeader();
+            List<String> lstLabel = j.getLstLabel();
+            int k = 0;
+            for (String data : lstData) {
+                item.getItemProperty(lstLabel.get(k)).setValue(data);
+                k++;
+            }
+            i++;
         }
         container.sort(new Object[]{"id"}, new boolean[]{true});
         return container;
@@ -159,14 +131,13 @@ public class RepairLaborMngtController {
             }
         });
 
-        view.getBtnAdd().addClickListener(new Button.ClickListener() {
-
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                onInsert();
-            }
-        });
-
+//        view.getBtnAdd().addClickListener(new Button.ClickListener() {
+//
+//            @Override
+//            public void buttonClick(Button.ClickEvent event) {
+//                onInsert();
+//            }
+//        });
         view.getBtnImport().addClickListener(new Button.ClickListener() {
 
             @Override
@@ -197,9 +168,9 @@ public class RepairLaborMngtController {
     }
 
     private void onSearch() {
-        List<RepairLabor> list = RepairLaborMngtService.getInstance().listRepairLaborsAll(view.getTxtRepairLabor().getValue(), String.valueOf(repairType));
-        //Notification.show("lstUnits : " + list.size());
-        reloadData(list);
+        String repairName = view.getTxtRepairLabor().getValue();
+        List<ResultMaintainDTO> list = RepairLaborMngtService.getInstance().getListResultMaintain(repairType, repairName);
+        reloadData(list, Arrays.asList(headerColumn));
     }
 
     private void onCreateImportDialog() {
@@ -280,20 +251,20 @@ public class RepairLaborMngtController {
                             BundleUtils.getString("common.confirmDelete.no"),
                             new ConfirmDialog.Listener() {
 
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        wp = new WindowProgress(BundleUtils.getString("common.importing"));
-                                        UI.getCurrent().addWindow(wp);
-                                        UI.getCurrent().setPollInterval(1000);
-                                        ImportThread thread = new ImportThread(ui.getUploadImport().getPath() + lst.get(lst.size() - 1),
-                                                window);
-                                        thread.start();
-                                    } else {
-                                        // User did not confirm
-                                        Notification.show("nok");
-                                    }
-                                }
-                            });
+                        public void onClose(ConfirmDialog dialog) {
+                            if (dialog.isConfirmed()) {
+                                wp = new WindowProgress(BundleUtils.getString("common.importing"));
+                                UI.getCurrent().addWindow(wp);
+                                UI.getCurrent().setPollInterval(1000);
+                                ImportThread thread = new ImportThread(ui.getUploadImport().getPath() + lst.get(lst.size() - 1),
+                                        window);
+                                thread.start();
+                            } else {
+                                // User did not confirm
+                                Notification.show("nok");
+                            }
+                        }
+                    });
                     d.setStyleName(Reindeer.LAYOUT_BLUE);
                     d.setContentMode(ConfirmDialog.ContentMode.HTML);
                     d.getOkButton().setIcon(ISOIcons.SAVE);
@@ -390,7 +361,7 @@ public class RepairLaborMngtController {
                             currentParent = mapParent.get(String.valueOf(obj[1]));
                         }
                     }
-					 RepairLaborMngtService.getInstance().removeRepairLaborByType(String.valueOf(repairType));
+                    RepairLaborMngtService.getInstance().removeRepairLaborByType(String.valueOf(repairType));
                     for (RepairLabor labor : lstDataSave) {
                         RepairLaborMngtService.getInstance().addRepairLabor(labor);
                     }
@@ -464,28 +435,28 @@ public class RepairLaborMngtController {
                             BundleUtils.getString("common.confirmDelete.no"),
                             new ConfirmDialog.Listener() {
 
-                                public void onClose(ConfirmDialog dialog) {
-                                    if (dialog.isConfirmed()) {
-                                        // Confirmed to continue
-                                        ResultDTO res = null;
-                                        getDataFromUI(ui, dto);
-                                        if (isInsert) {
-                                            res = RepairLaborMngtService.getInstance().addRepairLabor(dto);
-                                            ComponentUtils.showNotification(BundleUtils.getString("common.button.add") + " " + res.getKey() + " " + res.getMessage());
-                                        } else {
-                                            res = RepairLaborMngtService.getInstance().updateRepairLabor(dto);
-                                            ComponentUtils.showNotification(BundleUtils.getString("common.button.update") + " "
-                                                    + res.getKey() + " " + res.getMessage());
-                                        }
-                                        window.close();
-                                        view.getBtnSearch().click();
-                                    } else {
-                                        // User did not confirm
-                                        Notification.show("nok");
-                                        window.close();
-                                    }
+                        public void onClose(ConfirmDialog dialog) {
+                            if (dialog.isConfirmed()) {
+                                // Confirmed to continue
+                                ResultDTO res = null;
+                                getDataFromUI(ui, dto);
+                                if (isInsert) {
+                                    res = RepairLaborMngtService.getInstance().addRepairLabor(dto);
+                                    ComponentUtils.showNotification(BundleUtils.getString("common.button.add") + " " + res.getKey() + " " + res.getMessage());
+                                } else {
+                                    res = RepairLaborMngtService.getInstance().updateRepairLabor(dto);
+                                    ComponentUtils.showNotification(BundleUtils.getString("common.button.update") + " "
+                                            + res.getKey() + " " + res.getMessage());
                                 }
-                            });
+                                window.close();
+                                view.getBtnSearch().click();
+                            } else {
+                                // User did not confirm
+                                Notification.show("nok");
+                                window.close();
+                            }
+                        }
+                    });
                     d.setStyleName(Reindeer.LAYOUT_BLUE);
                     d.setContentMode(ConfirmDialog.ContentMode.HTML);
                     d.getOkButton().setIcon(ISOIcons.SAVE);

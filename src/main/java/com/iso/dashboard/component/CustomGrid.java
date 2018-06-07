@@ -32,10 +32,12 @@ public class CustomGrid extends Grid {
     private final NativeSelect itemsPerPageSelect = new NativeSelect();
     private GeneratedPropertyContainer wrappingContainer;
     private Label totalRecords = new Label("", ContentMode.HTML);
+    private int dontCreatActionButton;
 
     public CustomGrid() {
         this.setEditorSaveCaption(BundleUtils.getString("common.button.save"));
         this.setEditorCancelCaption(BundleUtils.getString("common.button.cancel"));
+        dontCreatActionButton = 0;
     }
 
     public void genGrid(IndexedContainer container, String prefix,
@@ -77,6 +79,9 @@ public class CustomGrid extends Grid {
         String headerName = null;
         for (String columnsVisible1 : columnsVisible) {
             headerName = BundleUtils.getString(prefix + "." + columnsVisible1);
+            if(headerName.equals(prefix + "." + columnsVisible1)){
+                headerName = columnsVisible1;
+            }
             this.getColumn(columnsVisible1).setHeaderCaption(headerName);
         }
 
@@ -90,7 +95,7 @@ public class CustomGrid extends Grid {
 
     public void genGridCustomButton(IndexedContainer container, String prefix,
             String[] columnsVisible, String[] columnsOrder, HandlerActionGrid handler) {
-         // init Grid
+        // init Grid
         this.totalRecords.setStyleName(ValoTheme.LABEL_BOLD);
         this.setSizeFull();
         this.setHeightMode(HeightMode.ROW);
@@ -191,30 +196,32 @@ public class CustomGrid extends Grid {
                 .setEditable(false);
         grid.getColumn("stt").setWidth(60);
 //        grid.getHeaderRow(0).setStyleName(GridUtil.ALIGN_CELL_CENTER);
-        grid.getColumn("action").setHeaderCaption(BundleUtils.getString("common.table.action"));
+        if (dontCreatActionButton == 0) {
+            grid.getColumn("action").setHeaderCaption(BundleUtils.getString("common.table.action"));
 
-        grid.getColumn("action")
-                .setRenderer(new EditDeleteButtonValueRenderer(new EditDeleteButtonValueRenderer.EditDeleteButtonClickListener() {
+            grid.getColumn("action")
+                    .setRenderer(new EditDeleteButtonValueRenderer(new EditDeleteButtonValueRenderer.EditDeleteButtonClickListener() {
 
-                    @Override
-                    public void onEdit(final RendererClickEvent event) {
-                        handler.actionEdit(event.getItemId());
-                    }
+                        @Override
+                        public void onEdit(final RendererClickEvent event) {
+                            handler.actionEdit(event.getItemId());
+                        }
 
-                    @Override
-                    public void onDelete(final RendererClickEvent event) {
-                        handler.actionDelete(event.getItemId());
-                    }
-                }))
-                .setMinimumWidth(100);
+                        @Override
+                        public void onDelete(final RendererClickEvent event) {
+                            handler.actionDelete(event.getItemId());
+                        }
+                    }))
+                    .setMinimumWidth(100);
 
+            grid.getColumn("action").setEditable(false);
+        }
         grid.getColumn("stt").setEditable(false);
-        grid.getColumn("action").setEditable(false);
         /*
          * the icon of the editButton will get overwritten below by css styling @see DemoUI.initColumnAlignments
          */
     }
-    
+
     public void setColumnRenderes(final Grid grid, HandlerActionGrid handler) {
 
         // tweak it a bit - definitely needs more tweaking
@@ -222,38 +229,40 @@ public class CustomGrid extends Grid {
                 .setEditable(false);
         grid.getColumn("stt").setWidth(60);
 //        grid.getHeaderRow(0).setStyleName(GridUtil.ALIGN_CELL_CENTER);
-        grid.getColumn("action").setHeaderCaption(BundleUtils.getString("common.table.action"));
+        if (dontCreatActionButton == 0) {
+            grid.getColumn("action").setHeaderCaption(BundleUtils.getString("common.table.action"));
 
-        grid.getColumn("action")
-                .setRenderer(new CustomButtonValueRenderer(new CustomButtonValueRenderer.CustomButtonClickListener() {
-            @Override
-            public void onEdit(RendererClickEvent event) {
-                handler.actionEdit(event.getItemId());
-            }
+            grid.getColumn("action")
+                    .setRenderer(new CustomButtonValueRenderer(new CustomButtonValueRenderer.CustomButtonClickListener() {
+                        @Override
+                        public void onEdit(RendererClickEvent event) {
+                            handler.actionEdit(event.getItemId());
+                        }
 
-            @Override
-            public void onDelete(RendererClickEvent event) {
-                handler.actionDelete(event.getItemId());
-            }
+                        @Override
+                        public void onDelete(RendererClickEvent event) {
+                            handler.actionDelete(event.getItemId());
+                        }
 
-            @Override
-            public void onView(RendererClickEvent event) {
-                handler.actionSelect(event.getItemId());
-            }
+                        @Override
+                        public void onView(RendererClickEvent event) {
+                            handler.actionSelect(event.getItemId());
+                        }
 
-            @Override
-            public void onAssign(RendererClickEvent event) {
-                handler.actionAssign(event.getItemId());
-            }
+                        @Override
+                        public void onAssign(RendererClickEvent event) {
+                            handler.actionAssign(event.getItemId());
+                        }
 
-            @Override
-            public void onReport(RendererClickEvent event) {
-                handler.actionReport(event.getItemId());
-            }
-        })).setMinimumWidth(200);
+                        @Override
+                        public void onReport(RendererClickEvent event) {
+                            handler.actionReport(event.getItemId());
+                        }
+                    })).setMinimumWidth(200);
 
+            grid.getColumn("action").setEditable(false);
+        }
         grid.getColumn("stt").setEditable(false);
-        grid.getColumn("action").setEditable(false);
         /*
          * the icon of the editButton will get overwritten below by css styling @see DemoUI.initColumnAlignments
          */
@@ -410,6 +419,14 @@ public class CustomGrid extends Grid {
 
     public void setWrappingContainer(GeneratedPropertyContainer wrappingContainer) {
         this.wrappingContainer = wrappingContainer;
+    }
+
+    public int getDontCreatActionButton() {
+        return dontCreatActionButton;
+    }
+
+    public void setDontCreatActionButton(int dontCreatActionButton) {
+        this.dontCreatActionButton = dontCreatActionButton;
     }
 
 }

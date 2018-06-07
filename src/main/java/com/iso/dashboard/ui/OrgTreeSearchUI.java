@@ -55,15 +55,17 @@ public class OrgTreeSearchUI extends HorizontalLayout {
     private Organization orgSelected;
 
     public OrgTreeSearchUI(String caption) {
+        setSizeFull();
         setCaption(caption);
         HorizontalLayout toolbar = new HorizontalLayout();
-        toolbar.addStyleName("toolbar");
+        toolbar.setWidth("100%");
+        addStyleName(ValoTheme.FORMLAYOUT_LIGHT);
 
         txtOrgName = new TextField();
-        txtOrgName.setDescription(BundleUtils.getString("orgMnt.treeSearh.title"));
-        txtOrgName.setInputPrompt(BundleUtils.getString("orgMnt.treeSearh.title"));
-//        txtOrgName.setPlaceholder(BundleUtils.getString("orgMnt.treeSearh.title"));
-        toolbar.addComponent(txtOrgName);
+        txtOrgName.setWidth("100%");
+        txtOrgName.addStyleName("none-border");
+        addComponent(txtOrgName);
+        setExpandRatio(txtOrgName, 9.5f);
 
         btnOpen = new Button();
         btnOpen.setIcon(FontAwesome.SEARCH);
@@ -76,7 +78,7 @@ public class OrgTreeSearchUI extends HorizontalLayout {
                 actionSearch();
             }
         });
-        toolbar.addComponent(btnOpen);
+        addComponent(btnOpen);
         addComponent(toolbar);
     }
 

@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "c_profile_machine")
@@ -72,6 +73,25 @@ public class CProfileMachine implements Serializable {
     private String avatar;
     @Column(name = "MANUFACTORY_NAME", nullable = true)
     private String manufactoryName;
+    @ManyToOne
+    @JoinColumn(name = "organization_id", nullable = true)
+    private Organization organization;
+    
+    @Temporal(TemporalType.DATE)
+    @Column(name = "insurance_exp")
+    private Date insuranceExp;
+    
+    @Temporal(TemporalType.DATE)
+    @Column(name = "registry_exp")
+    private Date registryExp;
+    
+    @Temporal(TemporalType.DATE)
+    @Column(name = "rubber_replace")
+    private Date rubberReplace;
+    
+    @Temporal(TemporalType.DATE)
+    @Column(name = "battery_replace")
+    private Date batteryReplace;
 
     public CProfileMachine() {
     }
@@ -247,6 +267,46 @@ public class CProfileMachine implements Serializable {
 
     public void setManufactoryName(String manufactoryName) {
         this.manufactoryName = manufactoryName;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
+    public Date getInsuranceExp() {
+        return insuranceExp;
+    }
+
+    public void setInsuranceExp(Date insuranceExp) {
+        this.insuranceExp = insuranceExp;
+    }
+
+    public Date getRegistryExp() {
+        return registryExp;
+    }
+
+    public void setRegistryExp(Date registryExp) {
+        this.registryExp = registryExp;
+    }
+
+    public Date getRubberReplace() {
+        return rubberReplace;
+    }
+
+    public void setRubberReplace(Date rubberReplace) {
+        this.rubberReplace = rubberReplace;
+    }
+
+    public Date getBatteryReplace() {
+        return batteryReplace;
+    }
+
+    public void setBatteryReplace(Date batteryReplace) {
+        this.batteryReplace = batteryReplace;
     }
 
 }

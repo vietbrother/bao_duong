@@ -56,6 +56,7 @@ public class Constants {
     public interface DATE {
 
         public final static String ddMMyyyHHmmss = "dd/MM/yyyy HH:mm:ss";
+        public final static String ddMMyyy = "dd/MM/yyyy";
     }
 
     public final static String COMMA = ",";

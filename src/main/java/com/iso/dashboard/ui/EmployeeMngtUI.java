@@ -55,6 +55,7 @@ public class EmployeeMngtUI extends VerticalLayout {
         this.caption = caption;
         this.setIcon(FontAwesome.CALENDAR);
         addComponent(buildFieldsInfo());
+        addComponent(buildButton());
 
 //        EmployeeProcessMngtView employeeProcessMngtView = new EmployeeProcessMngtView();
 //        employeeProcessMngtView.getBtnAdd().setVisible(false);

@@ -90,6 +90,11 @@ public class ProfileMachineDAO extends BaseDAO {
             et.setManufactureYear(newData.getManufactureYear());
             et.setWeightCurrent(newData.getWeightCurrent());
             et.setEmployee(newData.getEmployee());
+            et.setOrganization(newData.getOrganization());
+            et.setInsuranceExp(newData.getInsuranceExp());
+            et.setRegistryExp(newData.getRegistryExp());
+            et.setRubberReplace(newData.getRubberReplace());
+            et.setBatteryReplace(newData.getBatteryReplace());
             session.update(et);
             session.getTransaction().commit();
             res.setKey(Constants.SUCCESS);

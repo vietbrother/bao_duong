@@ -8,6 +8,7 @@ package com.iso.dashboard.service;
 import com.iso.dashboard.dao.RepairLaborDAO;
 import com.iso.dashboard.dto.RepairLabor;
 import com.iso.dashboard.dto.ResultDTO;
+import com.iso.dashboard.dto.ResultMaintainDTO;
 import java.util.List;
 
 /**
@@ -50,5 +51,9 @@ public class RepairLaborMngtService {
     
     public void removeRepairLaborByType(String maitainType) {
         RepairLaborDAO.getInstance().deleteRepairLabor(maitainType);
+    }
+    
+    public List<ResultMaintainDTO> getListResultMaintain(int maintainType, String repairName){
+        return RepairLaborDAO.getInstance().getListResultMaintain(maintainType, repairName);
     }
 }

@@ -30,6 +30,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.vaadin.dialogs.ConfirmDialog;
@@ -117,15 +118,28 @@ public class ProfileMachineMngtController {
         container.addContainerProperty("name", String.class, null);
         container.addContainerProperty("manufactoryName", String.class, null);
         container.addContainerProperty("type", String.class, null);
+        container.addContainerProperty("organization", String.class, null);
         container.addContainerProperty("employee", String.class, null);
+        container.addContainerProperty("insurance", String.class, null);
+        container.addContainerProperty("registry", String.class, null);
+        container.addContainerProperty("rubber", String.class, null);
+        container.addContainerProperty("batteryReplace", String.class, null);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        int i = 1;
         for (CProfileMachine j : lstUnits) {
             Item item = container.addItem(j);
-            item.getItemProperty("id").setValue(String.valueOf(j.getId()));
+            item.getItemProperty("id").setValue(String.valueOf(i));
             item.getItemProperty("code").setValue(j.getCode());
             item.getItemProperty("name").setValue(j.getName());
             item.getItemProperty("manufactoryName").setValue(j.getManufactoryName());
             item.getItemProperty("type").setValue(j.getRepairType() == null ? "" : j.getRepairType().getName());
+            item.getItemProperty("organization").setValue(j.getOrganization()== null ? "" : (j.getOrganization().getName()));
             item.getItemProperty("employee").setValue(j.getEmployee() == null ? "" : (j.getEmployee().getFirstName() + " " + j.getEmployee().getLastName()));
+            item.getItemProperty("insurance").setValue(j.getInsuranceExp() == null ? "" : sdf.format(j.getInsuranceExp()));
+            item.getItemProperty("registry").setValue(j.getRegistryExp() == null ? "" : sdf.format(j.getRegistryExp()));
+            item.getItemProperty("rubber").setValue(j.getRubberReplace() == null ? "" : sdf.format(j.getRubberReplace()));
+            item.getItemProperty("batteryReplace").setValue(j.getBatteryReplace() == null ? "" : sdf.format(j.getBatteryReplace()));
+            i++;
         }
         container.sort(new Object[]{"id"}, new boolean[]{true});
         return container;
@@ -200,6 +214,11 @@ public class ProfileMachineMngtController {
             ui.getTxtWidth().setValue(dto.getWidth() == null ? "" : dto.getWidth());
             ui.getTxaDetail().setValue(dto.getDetail() == null ? "" : dto.getDetail());
             ui.getTxtManufactoryName().setValue(dto.getManufactoryName()== null ? "" : dto.getManufactoryName());
+            ui.getOrgTreeSearchUI().setOrgSelected(dto.getOrganization());
+            ui.getInsuranceExp().setValue(dto.getInsuranceExp());
+            ui.getRegistryExp().setValue(dto.getRegistryExp());
+            ui.getBatteryReplace().setValue(dto.getBatteryReplace());
+            ui.getRubberReplace().setValue(dto.getRubberReplace());
 
             ComponentUtils.fillDataObjectCombo(ui.getCmbType(), "",
                     dto.getRepairType() == null ? "" : String.valueOf(dto.getRepairType().getId()),
@@ -208,6 +227,10 @@ public class ProfileMachineMngtController {
             if (dto.getEmployee()!= null) {
                 ui.getEmpSearchUI().getTxtTaskName().setValue(dto.getEmployee().getFirstName() + " " + dto.getEmployee().getLastName());
                 ui.getEmpSearchUI().setTreeTaskSelected(dto.getEmployee());
+            }
+            if (dto.getOrganization() != null){
+                ui.getOrgTreeSearchUI().setOrgSelected(dto.getOrganization());
+                ui.getOrgTreeSearchUI().getTxtOrgName().setValue(dto.getOrganization().getName());
             }
         }
     }
@@ -282,7 +305,7 @@ public class ProfileMachineMngtController {
         dto.setName(ui.getTxtName().getValue().trim());
         dto.setCode(ui.getTxtCode().getValue().trim());
         dto.setBattery(ui.getTxtBattery().getValue());
-        dto.setAvatar(ui.getUploadAvatar().getUrl() == null || ui.getUploadAvatar().getUrl().size() == 0 ? ""
+        dto.setAvatar(ui.getUploadAvatar().getUrl() == null || ui.getUploadAvatar().getUrl().isEmpty() ? ""
                 : (ui.getUploadAvatar().getPath() + ui.getUploadAvatar().getUrl().get(0)));
         dto.setDetail(ui.getTxaDetail().getValue());
         dto.setDriveSystem(ui.getTxtDriveSystem().getValue());
@@ -299,6 +322,11 @@ public class ProfileMachineMngtController {
         dto.setWidth(ui.getTxtWidth().getValue());
         dto.setEmployee(ui.getEmpSearchUI().getTreeTaskSelected());
         dto.setManufactoryName(ui.getTxtManufactoryName().getValue());
+        dto.setOrganization(ui.getOrgTreeSearchUI().getOrgSelected());
+        dto.setRegistryExp(ui.getRegistryExp().getValue());
+        dto.setInsuranceExp(ui.getInsuranceExp().getValue()); 
+        dto.setRubberReplace(ui.getRubberReplace().getValue());
+        dto.setBatteryReplace(ui.getBatteryReplace().getValue());
 
         RepairType type = (RepairType) ui.getCmbType().getValue();
         if (type != null && !DataUtil.isStringNullOrEmpty(type.getId()) && !Constants.DEFAULT_VALUE.equals(type.getId())) {
