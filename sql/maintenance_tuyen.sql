@@ -1,5 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `maintenance` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
-USE `maintenance`;
+
 -- MySQL dump 10.13  Distrib 8.0.11, for Win64 (x86_64)
 --
 -- Host: localhost    Database: maintenance
@@ -23,7 +22,7 @@ USE `maintenance`;
 
 DROP TABLE IF EXISTS `c_asset`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_asset` (
   `C_ASSET_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -67,7 +66,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_asset_class`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_asset_class` (
   `C_ASSET_CLASS_ID` int(10) NOT NULL AUTO_INCREMENT,
   `NAME` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -97,7 +96,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_asset_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_asset_group` (
   `C_ASSET_GROUP_ID` int(10) NOT NULL AUTO_INCREMENT,
   `NAME` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -127,7 +126,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_asset_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_asset_type` (
   `C_ASSET_TYPE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
@@ -158,7 +157,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_calendar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_calendar` (
   `calendar_id` int(11) NOT NULL AUTO_INCREMENT,
   `calendar_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci DEFAULT NULL,
@@ -190,7 +189,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_color_defined`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_color_defined` (
   `color_name` varchar(10) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci NOT NULL,
   `color_code` varchar(10) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci DEFAULT NULL,
@@ -214,7 +213,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_country` (
   `C_COUNTRY_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -245,7 +244,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_document`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_document` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `document_code` varchar(45) NOT NULL,
@@ -276,7 +275,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_education`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_education` (
   `C_EDUCATION_ID` int(10) NOT NULL AUTO_INCREMENT,
   `NAME` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -306,7 +305,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_employee_education`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_employee_education` (
   `C_EMPLOYEE_EDUCATION_ID` int(10) NOT NULL AUTO_INCREMENT,
   `C_EMPLOYEE_ID` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -341,7 +340,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_employee_process`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_employee_process` (
   `C_EMPLOYEE_PROCESS_ID` int(10) NOT NULL AUTO_INCREMENT,
   `C_EMPLOYEE_ID` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -375,7 +374,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_employee_reward`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_employee_reward` (
   `C_EMPLOYEE_REWARD_ID` int(10) NOT NULL AUTO_INCREMENT,
   `C_EMPLOYEE_ID` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -408,7 +407,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_employee_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_employee_type` (
   `C_EMPLOYEE_TYPE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `EMPLOYEE_TYPE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -437,7 +436,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_employees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_employees` (
   `C_EMPLOYEE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `EMPLOYEE_CODE` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'Mã cán bộ, nhân viên',
@@ -480,7 +479,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_field`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_field` (
   `C_FIELD_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -510,7 +509,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_file`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `file_code` varchar(45) NOT NULL,
@@ -541,7 +540,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_job`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_job` (
   `C_JOB_ID` int(11) NOT NULL AUTO_INCREMENT,
   `JOB_TITLE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -574,7 +573,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_job_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_job_history` (
   `C_JOB_HISTORY_ID` int(10) NOT NULL AUTO_INCREMENT,
   `EMPLOYEE_ID` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -609,7 +608,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_maintain_sup`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_maintain_sup` (
   `c_maintain_sup_id` int(11) NOT NULL AUTO_INCREMENT,
   `sup_name` text CHARACTER SET utf8 COLLATE utf8_vietnamese_ci,
@@ -637,7 +636,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_maintenance`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_maintenance` (
   `C_MAINTENANCE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -681,7 +680,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_maintenance_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_maintenance_type` (
   `C_MAINTENANCE_TYPE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
@@ -712,7 +711,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_material`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_material` (
   `C_MATERIAL_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -754,7 +753,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_material_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_material_group` (
   `C_MATERIAL_GROUP_ID` int(10) NOT NULL AUTO_INCREMENT,
   `NAME` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -784,7 +783,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_material_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_material_type` (
   `C_MATERIAL_TYPE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
@@ -815,7 +814,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_organization_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_organization_task` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci DEFAULT NULL,
@@ -855,7 +854,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_procedure`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_procedure` (
   `C_PROCEDURE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -889,7 +888,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_process_guide`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_process_guide` (
   `process_guide_id` int(11) NOT NULL AUTO_INCREMENT,
   `process_guide_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci DEFAULT NULL,
@@ -916,7 +915,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_profile_machine`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_profile_machine` (
   `C_PROFILE_MACHINE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
@@ -964,7 +963,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_provider`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_provider` (
   `C_PROVIDER_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
@@ -995,7 +994,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_repair_labor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_repair_labor` (
   `C_REPAIR_LABOR_ID` int(10) NOT NULL AUTO_INCREMENT,
   `PARENT_ID` int(10) DEFAULT NULL,
@@ -1026,7 +1025,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_repair_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_repair_type` (
   `C_REPAIR_TYPE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
@@ -1051,7 +1050,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_security_level`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_security_level` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `security_level_name` varchar(255) DEFAULT NULL,
@@ -1082,7 +1081,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_stock_supply`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_stock_supply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` text CHARACTER SET utf8 COLLATE utf8_vietnamese_ci,
@@ -1112,7 +1111,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_task` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci DEFAULT NULL,
@@ -1156,7 +1155,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_task_assignee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_task_assignee` (
   `task_id` int(11) NOT NULL,
   `seq` int(11) NOT NULL,
@@ -1176,9 +1175,9 @@ UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_vietnamese_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1201,7 +1200,7 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `c_task_attachment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_task_attachment` (
   `task_id` int(11) NOT NULL,
   `seq` int(11) NOT NULL,
@@ -1225,9 +1224,9 @@ UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_vietnamese_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1251,7 +1250,7 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `c_task_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_task_group` (
   `task_group_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_group_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci DEFAULT NULL,
@@ -1278,7 +1277,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_task_history`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_task_history` (
   `hist_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_id` int(11) NOT NULL,
@@ -1308,9 +1307,9 @@ UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_vietnamese_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1325,9 +1324,9 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_vietnamese_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1346,7 +1345,7 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `c_task_piority`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_task_piority` (
   `task_piority_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_piority_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci DEFAULT NULL,
@@ -1372,7 +1371,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_task_priority`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_task_priority` (
   `task_priority_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_priority_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci DEFAULT NULL,
@@ -1399,7 +1398,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `c_task_review`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_task_review` (
   `task_id` int(11) NOT NULL,
   `seq` int(11) NOT NULL,
@@ -1423,9 +1422,9 @@ UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_vietnamese_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
@@ -1448,7 +1447,7 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `c_unit`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `c_unit` (
   `C_UNIT_ID` int(10) NOT NULL AUTO_INCREMENT,
   `CODE` text CHARACTER SET utf8 COLLATE utf8_unicode_ci,
@@ -1479,7 +1478,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cata_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `cata_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `BIRTH_DAY` date DEFAULT NULL,
@@ -1512,7 +1511,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `m_maintenance_material`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `m_maintenance_material` (
   `M_MAINTENANCE_MATERIAL_ID` int(10) NOT NULL AUTO_INCREMENT,
   `C_MAINTENANCE_ID` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -1543,7 +1542,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `m_maintenance_work`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `m_maintenance_work` (
   `M_MAINTENANCE_WORK_ID` int(10) NOT NULL AUTO_INCREMENT,
   `C_MAINTENANCE_ID` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -1580,7 +1579,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `m_procedure_document`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `m_procedure_document` (
   `M_PROCEDURE_DOCUMENT_ID` int(10) NOT NULL AUTO_INCREMENT,
   `C_PROCEDURE_ID` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -1610,7 +1609,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `m_profile_employee`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `m_profile_employee` (
   `M_PROFILE_EMPLOYEE_ID` int(10) NOT NULL AUTO_INCREMENT,
   `C_PROFILE_MACHINE_ID` int(10) NOT NULL,
@@ -1635,7 +1634,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `organization`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `organization` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `CREATE_TIME` date DEFAULT NULL,
@@ -1670,7 +1669,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `student` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `FIRST_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_vietnamese_ci NOT NULL,
@@ -1695,7 +1694,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+ SET character_set_client = utf8 ;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `BIRTH_DAY` date DEFAULT NULL,
@@ -1734,9 +1733,9 @@ UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_vietnamese_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
@@ -1776,9 +1775,9 @@ DELIMITER ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_vietnamese_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
