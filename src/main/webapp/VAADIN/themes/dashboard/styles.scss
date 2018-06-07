@@ -1562,3 +1562,13 @@
 .dashboard .valo-menu .valo-menu-badge, .dashboard .dashboard-view .notifications.unread .v-button-caption {
     margin-top: 1px;
 }
+.commentsGrid td{
+    height:150px !important;
+ }
+
+p.wrap{
+  width: 400px;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal; 
+}

@@ -24,16 +24,22 @@ import com.iso.dashboard.utils.WindowProgress;
 import com.iso.dashboard.view.RepairLaborMngtView;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.util.converter.Converter;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.renderers.HtmlRenderer;
+import com.vaadin.ui.renderers.Renderer;
 import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.themes.ValoTheme;
 import java.io.File;
 import static java.lang.Math.log;
 import java.util.AbstractMap;
@@ -41,7 +47,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import javax.swing.text.html.HTMLDocument;
 import org.vaadin.dialogs.ConfirmDialog;
 
 /**
@@ -91,6 +99,50 @@ public class RepairLaborMngtController {
         IndexedContainer container = createContainer(lst, tempList);
         pagedTable.setDontCreatActionButton(1);
         pagedTable.genGrid(container, prefix, headerColumn, null, null);
+        pagedTable.setRowStyleGenerator(new Grid.RowStyleGenerator() {
+
+            @Override
+            public String getStyle(Grid.RowReference row) {
+                return ValoTheme.LAYOUT_HORIZONTAL_WRAPPING;
+            }
+        });
+        pagedTable.setCellStyleGenerator(new Grid.CellStyleGenerator() {
+
+            @Override
+            public String getStyle(Grid.CellReference cell) {
+                return ValoTheme.LAYOUT_HORIZONTAL_WRAPPING;
+            }
+        });
+        pagedTable.addStyleName("commentsGrid");
+        pagedTable.getColumn("name").setRenderer(new HtmlRenderer(), new Converter<String, String>() {
+
+            @Override
+            public String convertToModel(String value, Class<? extends String> targetType, Locale locale)
+                    throws com.vaadin.data.util.converter.Converter.ConversionException {
+                return value;
+            }
+
+            @Override
+            public String convertToPresentation(String value, Class<? extends String> targetType, Locale locale)
+                    throws com.vaadin.data.util.converter.Converter.ConversionException {
+                if (value != null) {
+                    return "<p class=\"wrap\">" + value + "</p>";
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public Class<String> getModelType() {
+                return String.class;
+            }
+
+            @Override
+            public Class<String> getPresentationType() {
+                return String.class;
+            }
+        });
+        pagedTable.getColumn("name").setWidth(400);
 
     }
 
@@ -251,20 +303,20 @@ public class RepairLaborMngtController {
                             BundleUtils.getString("common.confirmDelete.no"),
                             new ConfirmDialog.Listener() {
 
-                        public void onClose(ConfirmDialog dialog) {
-                            if (dialog.isConfirmed()) {
-                                wp = new WindowProgress(BundleUtils.getString("common.importing"));
-                                UI.getCurrent().addWindow(wp);
-                                UI.getCurrent().setPollInterval(1000);
-                                ImportThread thread = new ImportThread(ui.getUploadImport().getPath() + lst.get(lst.size() - 1),
-                                        window);
-                                thread.start();
-                            } else {
-                                // User did not confirm
-                                Notification.show("nok");
-                            }
-                        }
-                    });
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        wp = new WindowProgress(BundleUtils.getString("common.importing"));
+                                        UI.getCurrent().addWindow(wp);
+                                        UI.getCurrent().setPollInterval(1000);
+                                        ImportThread thread = new ImportThread(ui.getUploadImport().getPath() + lst.get(lst.size() - 1),
+                                                window);
+                                        thread.start();
+                                    } else {
+                                        // User did not confirm
+                                        Notification.show("nok");
+                                    }
+                                }
+                            });
                     d.setStyleName(Reindeer.LAYOUT_BLUE);
                     d.setContentMode(ConfirmDialog.ContentMode.HTML);
                     d.getOkButton().setIcon(ISOIcons.SAVE);
@@ -435,28 +487,28 @@ public class RepairLaborMngtController {
                             BundleUtils.getString("common.confirmDelete.no"),
                             new ConfirmDialog.Listener() {
 
-                        public void onClose(ConfirmDialog dialog) {
-                            if (dialog.isConfirmed()) {
-                                // Confirmed to continue
-                                ResultDTO res = null;
-                                getDataFromUI(ui, dto);
-                                if (isInsert) {
-                                    res = RepairLaborMngtService.getInstance().addRepairLabor(dto);
-                                    ComponentUtils.showNotification(BundleUtils.getString("common.button.add") + " " + res.getKey() + " " + res.getMessage());
-                                } else {
-                                    res = RepairLaborMngtService.getInstance().updateRepairLabor(dto);
-                                    ComponentUtils.showNotification(BundleUtils.getString("common.button.update") + " "
-                                            + res.getKey() + " " + res.getMessage());
+                                public void onClose(ConfirmDialog dialog) {
+                                    if (dialog.isConfirmed()) {
+                                        // Confirmed to continue
+                                        ResultDTO res = null;
+                                        getDataFromUI(ui, dto);
+                                        if (isInsert) {
+                                            res = RepairLaborMngtService.getInstance().addRepairLabor(dto);
+                                            ComponentUtils.showNotification(BundleUtils.getString("common.button.add") + " " + res.getKey() + " " + res.getMessage());
+                                        } else {
+                                            res = RepairLaborMngtService.getInstance().updateRepairLabor(dto);
+                                            ComponentUtils.showNotification(BundleUtils.getString("common.button.update") + " "
+                                                    + res.getKey() + " " + res.getMessage());
+                                        }
+                                        window.close();
+                                        view.getBtnSearch().click();
+                                    } else {
+                                        // User did not confirm
+                                        Notification.show("nok");
+                                        window.close();
+                                    }
                                 }
-                                window.close();
-                                view.getBtnSearch().click();
-                            } else {
-                                // User did not confirm
-                                Notification.show("nok");
-                                window.close();
-                            }
-                        }
-                    });
+                            });
                     d.setStyleName(Reindeer.LAYOUT_BLUE);
                     d.setContentMode(ConfirmDialog.ContentMode.HTML);
                     d.getOkButton().setIcon(ISOIcons.SAVE);
